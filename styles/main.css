@@ -64,3 +64,128 @@ body{
 .menu__item_active img{
     filter: brightness(0) invert(1);
 }
+.content{
+    padding: 45px 50px;
+    display: flex;
+    flex-direction: column;
+    min-width: 900px;
+}
+header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.progress{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 235px;
+    gap: 12px;
+}
+.progress__text{
+    display: flex;
+    justify-content: space-between;
+}
+.progress__percent{
+    color: #737f92;
+}
+.progress__bar{
+    height: 5px;
+    border-radius: 4px;
+    background: #E6E9ED;
+    position: relative;
+    width: 100%;
+}
+.progress__bar-cover{
+    position:absolute;
+    border-radius: 4px;
+    background: #5051F9;
+    width: 80%;
+    height:5px;
+}
+h1{
+    font-size: 30px;
+    font-weight: 600;
+    margin:0;
+}
+main{
+    margin-top: 40px;
+}
+.habbit{
+    display: flex;
+    background: #FFF;
+    border-radius: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+    width: 100%;
+}
+.habbit__day{
+    min-width: 150px;
+    background:#FBFAFF;
+    border-radius: 10px 0 0 10px;
+    border-right: 1px solid #E7EBFB;
+    padding: 25px 45px;
+    font-size: 14px;
+    
+}
+.habbit__comment{
+    padding: 25px 25px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #23235F;
+}
+.habbit__delete{
+    padding: 2px;
+    margin-left: auto;
+    margin-right: 10px;
+    background: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    border: none;
+    transition: .3s;
+    align-self: center;
+}
+.habbit__delete:hover{
+    background: #f3f3fd;
+}
+.habbit__form{
+    display: flex;
+    gap: 15px;
+    padding: 0px 10px 0 20px;
+    width: 100%;
+    position: relative;
+}
+.input__icon{
+    flex: 1;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Comfortaa;
+    padding: 11px 45px;
+    border-radius: 10px;
+    border: 1px solid #E7EBFB;
+    background: #FFF;
+}
+.input__icon::placeholder{
+    color:#8899A8;
+}
+.input_icon{
+    position: absolute;
+    top: 10px;
+    left: 40px;
+}
+.habbit__form__button{
+    border-radius: 9px;
+    background: #EDECFE;
+    padding: 14px 32px;
+    color: #5051F9;
+    font-family: Comfortaa;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+}
+.habbit__form__button:hover{
+    background: #e0defa;
+}
