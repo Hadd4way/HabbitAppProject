@@ -96,12 +96,12 @@ header{
     position: relative;
     width: 100%;
 }
-.progress__bar-cover{
+.progress__bar__cover{
     position:absolute;
     border-radius: 4px;
     background: #5051F9;
-    width: 80%;
     height:5px;
+    transition: .5s;
 }
 h1{
     font-size: 30px;
