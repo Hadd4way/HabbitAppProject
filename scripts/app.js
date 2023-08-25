@@ -1,9 +1,14 @@
 'use strict'
 
+//TODO:
+// deleteDay function
+// popup window
+
+
 const HABBIT_KEY = 'HABBIT_KEY';
 
 let habbits = [];
-
+let globalActiveHabbitId;
 const page ={
     menu: document.querySelector('.menu__list'),
     header: {
@@ -35,12 +40,45 @@ function saveData(){
 }
 
 function addDays(event){
-    event.preventDefault();                     // Отмена дефолтного действия Submit(отправка данных и перезагрузка страницы )
-    const data = new FormData(event.target);    // Создание некого хранилища data при помощи FormDataAPI
-    console.log(data.get('comment'));           // event.target вовзращает то, что мы использовали
-                                                // получаем значение input при помощи formDataAPI метода get('name'), чтобы использовать get
-                                                // мы должны прописать в нужном теге name = "пример имени"
+    event.preventDefault();
+    const form = event.target;
+    const data = new FormData(form);
+    const comment = data.get('comment');
+    form['comment'].classList.remove('error')
+    if(!comment){
+        form['comment'].classList.add('error')
+        return;
+    }
+    habbits = habbits.map(singleHabbit =>{
+        if(singleHabbit.id === globalActiveHabbitId){
+            return {
+                ...singleHabbit,
+                days: singleHabbit.days.concat({comment}),
+            }
+            
+        }
+        return singleHabbit;
+    })
+    form['comment'].value = '';
+    rerender(globalActiveHabbitId);
+    saveData();
 }
+
+function deleteDay(index){
+    habbits.map(habbit => {
+        if(habbit.id === globalActiveHabbitId){
+            habbit.days.splice(index,1);
+            return{
+                ...habbit,
+                days: habbit.days,
+            }
+        }
+        return habbit;
+    })
+    rerender(globalActiveHabbitId);
+    saveData();
+}
+
         // render //
 
 function rerenderMenu(activeHabbit){
@@ -84,16 +122,13 @@ function rerenderContent(activeHabbit){
         element.innerHTML = `
         <div class="habbit__day">День ${Number(index) + 1}</div>
         <div class="habbit__comment">${activeHabbit.days[index].comment}</div>
-        <button class="habbit__delete">
+        <button class="habbit__delete" onclick="deleteDay(${index})">
             <img src="/images/delete.svg" alt="Удалить день">
         </button>
         `;
-        element.querySelector('.habbit__delete').addEventListener('click',()=>{
-            element = '';
-            activeHabbit.days.splice(activeHabbit.days[index],1)
-            rerender(activeHabbit.id)
-        })
+        
         page.content.habbitList.appendChild(element);
+
     } 
     page.content.main.querySelector('.habbit__add__day').innerText = `День ${activeHabbit.days.length + 1}`;
 }
@@ -103,6 +138,7 @@ function rerenderContent(activeHabbit){
 
 function rerender(activeHabbitId){
     const activeHabbit = habbits.find((habbit) => habbit.id === activeHabbitId)
+    globalActiveHabbitId = activeHabbitId;
     if(!activeHabbit){
         return;
     }
