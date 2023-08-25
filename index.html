@@ -51,7 +51,7 @@
                 <h2>Новая привычка</h2>
                 <div class="icon-label">Иконка</div>
                 <div class="icon-select">
-                    <button class="icon" onclick="setIcon(this,'water')">
+                    <button class="icon icon_active" onclick="setIcon(this,'water')">
                         <img src="/images/water.svg" alt="Напиток" >
                     </button>
                     <button class="icon" onclick="setIcon(this,'sport')">
@@ -61,7 +61,7 @@
                         <img src="/images/food.svg" alt="Еда">
                     </button>
                 </div>
-                <form action="#" class="popup__form">
+                <form action="#" class="popup__form" onsubmit="addHabit(event)">
                     <input type="text" name="name" placeholder="Название">
                     <input type="text" name="icon" placeholder="Иконка" hidden>
                     <input type="number" name="target" placeholder="Цель">

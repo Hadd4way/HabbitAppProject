@@ -26,6 +26,7 @@ const page ={
     popUp:{
         cover: document.getElementById('add-habbit-popup'),
         iconField: document.querySelector('.popup__form input[name="icon"]'),
+        form: document.querySelector('popup__form'),
     }
 }
 
@@ -45,27 +46,52 @@ function saveData(){
 
 function addDays(event){
     event.preventDefault();
-    const form = event.target;
-    const data = new FormData(form);
-    const comment = data.get('comment');
-    form['comment'].classList.remove('error')
-    if(!comment){
-        form['comment'].classList.add('error')
+    const data = validateAndGetFormData(event.target,['comment'])
+    if(!data){
         return;
     }
     habbits = habbits.map(singleHabbit =>{
         if(singleHabbit.id === globalActiveHabbitId){
             return {
                 ...singleHabbit,
-                days: singleHabbit.days.concat({comment}),
+                days: singleHabbit.days.concat({comment:data.comment}),
             }
             
         }
         return singleHabbit;
     })
-    form['comment'].value = '';
+    resetFormData(event.target, ['comment'])
     rerender(globalActiveHabbitId);
     saveData();
+}
+
+function resetFormData(form,fields){
+    for(let field of fields){
+        form[field].value = ''
+    }
+}
+
+function validateAndGetFormData(form, fields){
+    let res = {};
+    const data = new FormData(form);
+    for(let field of fields){
+        const fieldValue = data.get(field);
+        form[field].classList.remove('error');
+        if(!fieldValue){
+            form[field].classList.add('error');
+        }
+        res[field] = fieldValue;
+    }
+    let isValid = true;
+    for(let field of fields){
+        if(!res[field]){
+            isValid = false;
+        }
+    }
+    if(!isValid){
+        return
+    }
+    return res;
 }
 
 function deleteDay(index){
@@ -98,6 +124,26 @@ function setIcon(context,icon){
         activeIcon.classList.remove('icon_active');
     }
     context.classList.add('icon_active');   
+}
+
+function addHabit(event){
+    event.preventDefault();
+    let data = validateAndGetFormData(event.target,["icon","target","name"]);
+    if(!data){
+        return
+    }
+    const maxId = habbits.reduce((acc,habbit)=> acc > habbit.id ? acc : habbit.id,0) + 1;
+    habbits.push({
+        id: maxId,
+        icon: data.icon,
+        name: data.name,
+        target: data.target,
+        days: [],
+    })
+    saveData();
+    togglePopUp();
+    rerender(maxId);
+    resetFormData(event.target,["icon","target","name"]);
 }
 
         // render //
@@ -163,6 +209,7 @@ function rerender(activeHabbitId){
     if(!activeHabbit){
         return;
     }
+    document.location.replace(document.location.pathname + '#' + `${globalActiveHabbitId}`);
     rerenderMenu(activeHabbit);
     rerenderHeader(activeHabbit)
     rerenderContent(activeHabbit);
@@ -172,5 +219,12 @@ function rerender(activeHabbitId){
 
 (() => {
     loadData();
-    rerender(habbits[0].id);
+    const urlId = Number(document.location.hash.replace('#',''));
+    const urlHabbit = habbits.find(habbit => habbit.id === urlId);
+    if(urlHabbit){
+        rerender(urlHabbit.id);
+    }
+    else{
+        rerender(habbits[0].id);
+    }
 })()
