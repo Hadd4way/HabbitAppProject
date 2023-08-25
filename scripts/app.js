@@ -22,6 +22,10 @@ const page ={
         habbitComment: document.querySelector('.habbit__comment'),
         habbitDeleteButton: document.querySelector('.habbit__delete'),
         main: document.querySelector('main')
+    },
+    popUp:{
+        cover: document.getElementById('add-habbit-popup'),
+        iconField: document.querySelector('.popup__form input[name="icon"]'),
     }
 }
 
@@ -77,6 +81,23 @@ function deleteDay(index){
     })
     rerender(globalActiveHabbitId);
     saveData();
+}
+function togglePopUp(){
+    if(page.popUp.cover.classList.contains('cover_hidden')){
+        page.popUp.cover.classList.remove('cover_hidden');
+    }
+    else{
+        page.popUp.cover.classList.add('cover_hidden');
+    }
+}
+
+function setIcon(context,icon){
+    page.popUp.iconField.value = icon;
+    const activeIcon = page.popUp.cover.querySelector('.icon_active');
+    if(activeIcon){
+        activeIcon.classList.remove('icon_active');
+    }
+    context.classList.add('icon_active');   
 }
 
         // render //
