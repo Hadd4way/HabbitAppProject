@@ -21,6 +21,12 @@
             </nav>
         </div>
         <div class="content">
+            <div class="default">
+                <div class="default__label">Привычки отсутсвуют!</div>
+                <div class="default__text">Добавьте новую привычку по кнопке ниже или в боковом меню</div>
+                <button class="button" onclick="togglePopUp()">Добавить свою первую привычку</button>
+                <img src="/images/emoji.png">
+            </div>
             <header>
                 <h1>Отжимания</h1>
                 <div class="progress">
@@ -34,9 +40,8 @@
                 </div>
             </header>
             <main>
-                <div class="habbit__list">
-                </div>
-                <div class="habbit">
+                <div class="habbit__list"></div>
+                <div class="habbit" id="habbit__add">
                     <div class="habbit__day habbit__add__day"></div>
                     <form class="habbit__form" action = "#" onsubmit="addDays(event)">
                         <input type="text" placeholder="Комментарий" name="comment">
@@ -63,7 +68,7 @@
                 </div>
                 <form action="#" class="popup__form" onsubmit="addHabit(event)">
                     <input type="text" name="name" placeholder="Название">
-                    <input type="text" name="icon" placeholder="Иконка" hidden>
+                    <input type="text" name="icon" value="water" placeholder="Иконка" hidden>
                     <input type="number" name="target" placeholder="Цель">
                     <button type="submit" class="button">Готово</button>
                 </form>

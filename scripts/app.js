@@ -32,8 +32,34 @@ const page ={
 
         // util // 
 
+function toggleHeaderAndAdd(condition){
+    if(condition){
+        document.querySelector('header').classList.remove('header__hidden');
+        document.querySelector('main').classList.remove('main__hidden');
+    }
+    else{
+        document.querySelector('header').classList.add('header__hidden');
+        document.querySelector('main').classList.add('main__hidden');
+        document.querySelector('.menu').style = 'gap: 0px';
+    }
+}
+
+function toggleDefault(condition){
+    if(!condition){
+        document.querySelector('.default').classList.remove('default__hidden');
+    }
+    else{
+        document.querySelector('.default').classList.add('default__hidden');
+    }
+    toggleHeaderAndAdd(condition)
+}
+
 function loadData() {
     const habbitsString  =  localStorage.getItem(HABBIT_KEY);
+    if(habbitsString === '' || habbitsString === '[]'){
+        habbits = [];
+        return;
+    }
     const habbitsArray = JSON.parse(habbitsString);
     if(Array.isArray(habbitsArray)){
         habbits = habbitsArray;
@@ -142,6 +168,7 @@ function addHabit(event){
     })
     saveData();
     togglePopUp();
+    toggleDefault(true);
     rerender(maxId);
     resetFormData(event.target,["icon","target","name"]);
 }
@@ -149,6 +176,7 @@ function addHabit(event){
         // render //
 
 function rerenderMenu(activeHabbit){
+    document.querySelector('.menu').style = '';
     for (const habbit of habbits){
         const existed = document.querySelector(`[menu__item__id = "${habbit.id}"]`);
         if(!existed){
@@ -219,6 +247,12 @@ function rerender(activeHabbitId){
 
 (() => {
     loadData();
+    let condition = habbits.length >= 1 ? true : false;
+    if(!condition){
+        toggleDefault(condition);
+        return;
+    }
+    toggleDefault(condition)
     const urlId = Number(document.location.hash.replace('#',''));
     const urlHabbit = habbits.find(habbit => habbit.id === urlId);
     if(urlHabbit){

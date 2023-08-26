@@ -25,6 +25,9 @@ body{
     flex-direction: column;
     gap: 25px;
 }
+.menu__hidden{
+    gap: 0px;
+}
 .menu__list{
     display: flex;
     flex-direction: column;
@@ -282,4 +285,36 @@ h2{
 .popup__form input{
     width: 100%;
     padding: 10px 20px;
+}
+.header__hidden{
+    display: none;
+}
+.main__hidden{
+    display: none;
+}
+.default{
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+    position: relative;
+}
+.default__label{
+    font-size: 30px;
+    font-weight: 400;
+}
+.default__text{
+    font-size: 20px;
+    font-weight: 400;
+    margin: 40px 0px;
+}
+.default button{
+    max-width: 320px ;
+}
+.default img{
+    position: absolute;
+    top: 35px;
+    left: 700px;
+}
+.default__hidden{
+    display: none;
 }
