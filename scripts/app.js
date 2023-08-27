@@ -32,26 +32,20 @@ const page ={
 
         // util // 
 
-function toggleHeaderAndAdd(condition){
-    if(condition){
-        document.querySelector('header').classList.remove('header__hidden');
-        document.querySelector('main').classList.remove('main__hidden');
-    }
-    else{
+// TRYUYYYYYYYYY
+
+function toggleDefault(){
+    if(!habbits.length >= 1){
+        document.querySelector('.default').classList.remove('default__hidden');
         document.querySelector('header').classList.add('header__hidden');
         document.querySelector('main').classList.add('main__hidden');
         document.querySelector('.menu').style = 'gap: 0px';
     }
-}
-
-function toggleDefault(condition){
-    if(!condition){
-        document.querySelector('.default').classList.remove('default__hidden');
-    }
     else{
         document.querySelector('.default').classList.add('default__hidden');
+        document.querySelector('header').classList.remove('header__hidden');
+        document.querySelector('main').classList.remove('main__hidden');
     }
-    toggleHeaderAndAdd(condition)
 }
 
 function loadData() {
@@ -168,7 +162,6 @@ function addHabit(event){
     })
     saveData();
     togglePopUp();
-    toggleDefault(true);
     rerender(maxId);
     resetFormData(event.target,["icon","target","name"]);
 }
@@ -232,11 +225,13 @@ function rerenderContent(activeHabbit){
 
 
 function rerender(activeHabbitId){
-    const activeHabbit = habbits.find((habbit) => habbit.id === activeHabbitId)
+    const activeHabbit = habbits.find((habbit) => habbit.id === activeHabbitId);
     globalActiveHabbitId = activeHabbitId;
     if(!activeHabbit){
+        toggleDefault();
         return;
     }
+    toggleDefault();
     document.location.replace(document.location.pathname + '#' + `${globalActiveHabbitId}`);
     rerenderMenu(activeHabbit);
     rerenderHeader(activeHabbit)
@@ -247,12 +242,10 @@ function rerender(activeHabbitId){
 
 (() => {
     loadData();
-    let condition = habbits.length >= 1 ? true : false;
-    if(!condition){
-        toggleDefault(condition);
+    if(!habbits.length >= 1){
+        toggleDefault();
         return;
     }
-    toggleDefault(condition)
     const urlId = Number(document.location.hash.replace('#',''));
     const urlHabbit = habbits.find(habbit => habbit.id === urlId);
     if(urlHabbit){
